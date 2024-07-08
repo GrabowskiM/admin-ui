@@ -83,13 +83,40 @@
                 </div>
             </div>
             <div class="ibexa-field-edit-preview__image-alt">
-                {% set alternative_text_label_class = form.vars.is_alternative_text_required ? 'required' : '' %}
-                {{ form_row(form.alternativeText, {
-                    attr: { 'data-is-required': form.vars.is_alternative_text_required, readonly: readonly },
-                    label_attr: { 'class': alternative_text_label_class }
-                }) }}
+                {% if true %}
+
+                {% embed '@ibexadesign/ui/component/ai/variants.html.twig' %}
+                    {% block suggestions_input_field %}
+                        {% set alternative_text_label_class = form.vars.is_alternative_text_required ? 'required' : '' %}
+                        {{ form_row(form.alternativeText, {
+                            attr: ai_base_attr|merge({ 
+                                'data-is-required': form.vars.is_alternative_text_required, 
+                                readonly,
+                            }),
+                            label_attr: { 'class': alternative_text_label_class }
+                        }) }}
+                    {% endblock %}
+                {% endembed %}
+
+                {% else %}
+
+                {% embed '@ibexadesign/ui/component/ai/basic.html.twig' %}
+                    {% block input_field %}
+                        {% set alternative_text_label_class = form.vars.is_alternative_text_required ? 'required' : '' %}
+                        {{ form_row(form.alternativeText, {
+                            attr: ai_base_attr|merge({ 
+                                'data-is-required': form.vars.is_alternative_text_required, 
+                                readonly,
+                            }),
+                            label_attr: { 'class': alternative_text_label_class }
+                        }) }}
+                    {% endblock %}
+                {% endembed %}
+
+                {% endif %}
                 {{ form_errors(form.alternativeText) }}
             </div>
+
             {{ form_widget(form.additionalData, {attr: {class: 'ibexa-field-edit-preview__additional-data', readonly: readonly }}) }}
         </div>
     </div>

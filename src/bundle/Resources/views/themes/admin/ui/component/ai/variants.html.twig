@@ -1,0 +1,59 @@
+{% extends '@ibexadesign/ui/component/ai/base.html.twig' %}
+
+{% block input_field %}
+    {% block suggestions_input_field %}{% endblock suggestions_input_field %}
+
+    <div class="ibexa-ai-wrapper__suggestions ibexa-ai-wrapper__suggestions--hidden">
+        <div class="ibexa-ai-wrapper__suggestions-header">
+            Select best option
+        </div>
+        <ul class="ibexa-ai-wrapper__suggestions-list" data-template="{{ include("@ibexadesign/ui/component/ai/suggestion_template.html.twig")|e('html_attr') }}">
+        </ul>
+        <div class="ibexa-ai-wrapper__suggestions-footer">
+            Results <span class="ibexa-ai-wrapper__suggestions-footer-count"></span>
+        </div>
+    
+    </div>
+{% endblock input_field %}
+
+{% block generate_btn %}
+    {% set popup_menu_header %}
+        <div class="ibexa-ai-component__header">
+            <div class="ibexa-ai-component__header-text">
+                Available AI actions
+            </div>
+            <div class="ibexa-ai-component__header-actions">
+                <button
+                    class="btn ibexa-btn ibexa-btn--no-text"
+                    type="button"
+                >
+                    <svg class="ibexa-icon ibexa-icon--small">
+                        <use xlink:href="{{ ibexa_icon_path('settings-block') }}"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    {% endset %}
+
+    {{ include('@ibexadesign/ui/component/split_btn/split_btn.html.twig', {
+        type: 'secondary',
+        label: popup_btn_label,
+        attr: {
+            'class': 'ibexa-ai-component ibexa-ai-component--variants',
+            'data-input-selector': '.ibexa-field-edit-preview__media',
+            'data-output-selector': '.ibexa-data-source__field--alternativeText input',
+            'data-type': 'VariantsImgToText',
+        },
+        subitems: [
+            {
+                label: 'generate.three.tones'|trans({}, 'ibexa_ai')|desc('Generate in three tones'),
+                action_attr: { class: 'ibexa-ai-component__variant-btn', 'data-prompt': 'Generate in three tones' }
+            },
+            {
+                label: 'generate.two.tones'|trans({}, 'ibexa_ai')|desc('Generate in two tones'),
+                action_attr: { class: 'ibexa-ai-component__variant-btn', 'data-prompt': 'Generate in two tones' }
+            }
+        ],
+        header: popup_menu_header,
+    }, with_context = false) }}
+{% endblock generate_btn %}

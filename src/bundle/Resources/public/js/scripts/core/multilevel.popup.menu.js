@@ -281,7 +281,6 @@
         generateBranch(data, processAfterCreated = () => {}) {
             const { triggerElement, placement, fallbackPlacements, hasSearch = false } = data;
             const { branchTemplate } = this.container.dataset;
-
             const container = doc.createElement('div');
             const renderedItem = branchTemplate;
 

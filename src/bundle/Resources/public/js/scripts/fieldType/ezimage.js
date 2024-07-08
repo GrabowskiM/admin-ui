@@ -1,9 +1,21 @@
+import createAIModule from '../core/ai/create.ai.module';
+
 (function (global, doc, ibexa, Translator) {
     const SELECTOR_FIELD = '.ibexa-field-edit--ezimage';
     const SELECTOR_INPUT_FILE = 'input[type="file"]';
     const SELECTOR_ALT_WRAPPER = '.ibexa-field-edit-preview__image-alt';
     const SELECTOR_INPUT_ALT = '.ibexa-field-edit-preview__image-alt .ibexa-data-source__input';
     const EVENT_CANCEL_ERROR = 'ibexa-cancel-errors';
+    const initAIComponent = () => {
+        const aiBtn = doc.querySelector('.ibexa-ai-component');
+
+        if (aiBtn) {
+            const AIModule = createAIModule(aiBtn.dataset.type);
+            const aiComponent = new AIModule(aiBtn);
+
+            aiComponent.init();
+        }
+    };
 
     class EzImageFilePreviewField extends ibexa.BasePreviewField {
         /**
@@ -97,6 +109,8 @@
             return result;
         }
     }
+
+    initAIComponent();
 
     doc.querySelectorAll(SELECTOR_FIELD).forEach((fieldContainer) => {
         const validator = new EzImageFieldValidator({

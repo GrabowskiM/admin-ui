@@ -1,0 +1,19 @@
+<div class="ibexa-ai-wrapper">
+    {% set popup_btn_label %}
+        <span class="ibexa-ai-component__icon-wrapper">
+            <svg class="ibexa-ai-component__icon ibexa-icon ibexa-icon--small ibexa-icon--primary">
+                <use xlink:href="{{ ibexa_icon_path('explore') }}"></use>
+            </svg>
+            <div class="ibexa-ai-component__spinner"></div>
+        </span>
+        {{ 'generate'|trans({}, 'ibexa_ai')|desc('Generate') }}
+    {% endset %}
+    {% set ai_base_attr = { class: 'ibexa-ai-component-input', is_small: false } %}
+
+    <div class="ibexa-ai-wrapper__input">
+        {% block input_field %}{% endblock input_field %}
+    </div>
+    <div class="ibexa-ai-wrapper__btn">
+        {% block generate_btn %}{% endblock generate_btn %}
+    </div>
+</div>

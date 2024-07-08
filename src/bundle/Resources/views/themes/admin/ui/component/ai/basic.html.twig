@@ -1,0 +1,18 @@
+{% extends '@ibexadesign/ui/component/ai/base.html.twig' %}
+
+{% import '@ibexadesign/ui/component/macros.html.twig' as html %}
+
+{% set generate_btn_wrapper_attr = {
+    class: 'ibexa-ai-component ibexa-ai-component--basic',
+    'data-input-selector': '.ibexa-field-edit-preview__media',
+    'data-output-selector': '.ibexa-data-source__field--alternativeText input',
+    'data-type': 'BasicImgToText',
+} %}
+
+{% block generate_btn %}
+    <div {{ html.attributes(generate_btn_wrapper_attr) }}>
+        <button class="btn ibexa-btn ibexa-btn--secondary" type="button">
+            {{ popup_btn_label }}
+        </button>
+    </div>
+{% endblock generate_btn %}
