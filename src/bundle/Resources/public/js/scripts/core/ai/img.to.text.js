@@ -9,14 +9,19 @@ export default class ImgToText extends Base {
         };
         super({ endpointURL: 'https://jsonplaceholder.typicode.com/posts' });
 
-        this.generatingMsg =
-            someConfig.generatingMsg ??
-            this.Translator.trans(/*@Desc("AI is generating...")*/ 'ibexa_ai.img_to_text.generating_msg', {}, 'ibexa_ai');
-
         this.mainElement = mainElement;
         this.btnElement = document.querySelector(mainElement.dataset.btnSelector);
         this.inputElement = document.querySelector(mainElement.dataset.inputSelector);
         this.outputElement = document.querySelector(mainElement.dataset.outputSelector);
+        this.savePrevValue = !!mainElement.dataset.savePrevValue;
+
+        this.generatingMsg =
+            someConfig.generatingMsg ??
+            this.Translator.trans(/*@Desc("AI is generating...")*/ 'ibexa_ai.img_to_text.generating_msg', {}, 'ibexa_ai');
+
+        if (this.savePrevValue) {
+            this.prevValue = '';
+        }
 
         this.processOutput = this.processOutput.bind(this);
     }
@@ -42,12 +47,17 @@ export default class ImgToText extends Base {
         this.btnElement.disabled = true;
         this.outputElement.disabled = true;
 
+        if (this.savePrevValue) {
+            this.prevValue = this.outputElement.value;
+        }
+
         this.mainElement.classList.add('ibexa-ai-component--disabled');
     }
 
     enableInputs() {
         this.btnElement.disabled = false;
         this.outputElement.disabled = false;
+        this.outputElement.value = this.savePrevValue ? this.prevValue : '';
 
         this.mainElement.classList.remove('ibexa-ai-component--disabled');
     }

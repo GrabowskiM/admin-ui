@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="9e59d42533de13285d6ef99427563967a25bfcf7" resname="generate">
+        <source>Generate</source>
+        <target state="new">Generate</target>
+        <note>key: generate</note>
+      </trans-unit>
+      <trans-unit id="8aba8bbb1cacbcd0df4238c99faeb3117f1d2692" resname="generate.three.tones">
+        <source>Generate in three tones</source>
+        <target state="new">Generate in three tones</target>
+        <note>key: generate.three.tones</note>
+      </trans-unit>
+      <trans-unit id="eabe900d3a057b552851bbc2fdc84eaa2da05b8d" resname="generate.two.tones">
+        <source>Generate in two tones</source>
+        <target state="new">Generate in two tones</target>
+        <note>key: generate.two.tones</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

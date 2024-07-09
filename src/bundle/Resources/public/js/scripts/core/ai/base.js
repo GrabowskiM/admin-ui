@@ -27,14 +27,11 @@ export default class Base {
             mode: getRequestMode({ instanceUrl: this.endpointURL }),
         });
 
-        this.disableInputs();
-
         return new Promise((resolve) => {
             setTimeout(() => {
                 fetch(request).then(getJsonFromResponse).then(resolve);
             }, 100);
         }).then((response) => {
-            this.enableInputs();
             this.processOutput(response);
         });
     }

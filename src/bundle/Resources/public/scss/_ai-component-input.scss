@@ -1,0 +1,10 @@
+.ibexa-ai-component-input {
+    &.ibexa-input--text {
+        &:disabled {
+            border-color: $ibexa-color-primary-600;
+            color: $ibexa-color-dark-400;
+            background-color: $ibexa-color-white;
+            font-style: italic;
+        }
+    }
+}

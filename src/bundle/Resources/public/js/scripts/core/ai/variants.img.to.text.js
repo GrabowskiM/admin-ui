@@ -12,6 +12,9 @@ export default class VariantsImgToText extends ImgToText {
         this.suggestionsPopoverElement = this.outputElement
             .closest('.ibexa-ai-wrapper__input')
             .querySelector('.ibexa-ai-wrapper__suggestions');
+
+        this.handleClickOutsideSuggestions = this.handleClickOutsideSuggestions.bind(this);
+        this.onSuggestionClick = this.onSuggestionClick.bind(this);
     }
 
     disableInputs() {
@@ -32,19 +35,36 @@ export default class VariantsImgToText extends ImgToText {
         return body;
     }
 
-    processOutput(response) {
-        if (!Array.isArray(response) || response.length === 1) {
-            super.processOutput(response);
+    onSuggestionClick(suggestion) {
+        const suggestionsListElement = this.suggestionsPopoverElement.querySelector('.ibexa-ai-wrapper__suggestions-list');
 
-            return;
+        this.closeSuggestions();
+
+        suggestionsListElement.innerHTML = '';
+        this.outputElement.value = suggestion.title;
+    }
+
+    handleClickOutsideSuggestions(event) {
+        if (!event.target.closest('.ibexa-ai-wrapper__suggestions')) {
+            this.closeSuggestions();
         }
+    }
 
+    closeSuggestions() {
+        this.enableInputs();
+        this.suggestionsPopoverElement.classList.add('ibexa-ai-wrapper__suggestions--hidden');
+        window.document.removeEventListener('click', this.handleClickOutsideSuggestions);
+    }
+
+    fillSugestions(suggestions) {
         const countElement = this.suggestionsPopoverElement.querySelector('.ibexa-ai-wrapper__suggestions-footer-count');
         const suggestionsListElement = this.suggestionsPopoverElement.querySelector('.ibexa-ai-wrapper__suggestions-list');
         const { template } = suggestionsListElement.dataset;
         const container = document.createElement('ul');
 
-        response.slice(0, 3).forEach((suggestion) => {
+        suggestionsListElement.innerHTML = '';
+
+        suggestions.slice(0, 3).forEach((suggestion) => {
             const suggestionTemplate = template.replace('{{ id }}', suggestion.id).replace('{{ value }}', suggestion.title);
 
             container.insertAdjacentHTML('beforeend', suggestionTemplate);
@@ -54,16 +74,28 @@ export default class VariantsImgToText extends ImgToText {
             suggestionsListElement.append(suggestionNode);
 
             suggestionNode.addEventListener('click', () => {
-                this.outputElement.value = suggestion.title;
-
-                this.suggestionsPopoverElement.classList.add('ibexa-ai-wrapper__suggestions--hidden');
+                this.onSuggestionClick(suggestion);
             });
         });
 
-        countElement.innerHTML = `${response.length}/${response.length}`;
+        countElement.innerHTML = `${suggestions.length}/${suggestions.length}`;
 
-        this.enableInputs();
+    }
+
+    openSuggestions() {
         this.suggestionsPopoverElement.classList.remove('ibexa-ai-wrapper__suggestions--hidden');
+        window.document.addEventListener('click', this.handleClickOutsideSuggestions, false);
+    }
+
+    processOutput(response) {
+        if (!Array.isArray(response) || response.length === 1) {
+            super.processOutput(response);
+
+            return;
+        }
+
+        this.fillSugestions(response);
+        this.openSuggestions();
     }
 
     initSuggestions() {
